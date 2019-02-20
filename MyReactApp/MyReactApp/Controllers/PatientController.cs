@@ -25,16 +25,16 @@ namespace MyReactApp.Controllers
 
         [HttpPost]
         [Route("api/Patient/Create")]
-        public void Create(Patient patient)
+        public int Create(Patient patient)
         {
-            myRepository.Add(patient);
+            return myRepository.Add(patient);
         }
 
         [HttpPut]
-        [Route("api/Employee/Edit")]
-        public void Edit(Patient patient)
+        [Route("api/Patient/Edit")]
+        public int Edit(Patient patient)
         {
-            myRepository.Update(patient);
+            return myRepository.Update(patient);
         }
 
         [HttpDelete]

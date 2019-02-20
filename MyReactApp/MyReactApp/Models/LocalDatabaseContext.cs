@@ -1,24 +1,24 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
+
 
 namespace MyReactApp.Models
 {
     public partial class LocalDatabaseContext : DbContext
     {
+        private readonly string myAppSettingsFilePath = @"C:\GitRepos\TeamGoal\MyReactApp\MyReactApp\appsettings.json";
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<Patient> Patient { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                IConfigurationRoot configuration = new ConfigurationBuilder()
-                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                    .AddJsonFile(@"C:\GitRepos\TeamGoal\MyReactApp\MyReactApp\appsettings.json")
-                    .Build();
-                optionsBuilder.UseSqlServer(configuration.GetConnectionString("LocalDatabase"));
-            }
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile(myAppSettingsFilePath)
+                .Build();
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("LocalDatabase"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -51,6 +51,10 @@ namespace MyReactApp.Models
                     .IsRequired()
                     .HasMaxLength(6)
                     .IsUnicode(false);
+
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Name)
                     .IsRequired()

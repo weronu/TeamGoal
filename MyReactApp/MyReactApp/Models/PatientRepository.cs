@@ -14,6 +14,7 @@ namespace MyReactApp.Models
         {
             Patient patient = myContext.Patient.First(x => x.PatientId == id);
             myContext.Patient.Remove(patient);
+            myContext.SaveChanges();
         }
 
         //To Get the list of City    

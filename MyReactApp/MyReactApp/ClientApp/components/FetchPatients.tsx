@@ -6,6 +6,14 @@ interface FetchPatientDataState {
     patList: PatientData[]; // class to hold patient data
     loading: boolean; // indicator if the data is being loaded onto the page
 }
+
+
+const styles = {
+    hide: {
+        display: 'none',
+    }
+} as React.CSSProperties;
+
 export class FetchPatients extends React.Component<RouteComponentProps<{}>, FetchPatientDataState> { // component class
     constructor() {
         super();
@@ -52,41 +60,44 @@ export class FetchPatients extends React.Component<RouteComponentProps<{}>, Fetc
     private handleEdit(id: number) {
         this.props.history.push("/Patient/edit/" + id);
     }
+
     // Returns the HTML table to the render() method.  
     private renderPatientTable(patList: PatientData[]) {
         return <table className='table'>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>PatientId</th>
-                    <th>Name</th>
-                    <th>Gender</th>
-                    <th>Department</th>
-                    <th>City</th>
-                </tr>
-            </thead>
-            <tbody>
-                {patList.map(emp =>
-                    <tr key={emp.patientId}>
+                   <thead>
+                   <tr>
+                       <th></th>
+                       <th>Name</th>
+                       <th>Lastname</th>
+                       <th>Gender</th>
+                       <th>Department</th>
+                       <th>City</th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   {patList.map(patient =>
+                    <tr key={patient.patientId}>
                         <td></td>
-                        <td>{emp.patientId}</td>
-                        <td>{emp.name}</td>
-                        <td>{emp.gender}</td>
-                        <td>{emp.department}</td>
-                        <td>{emp.city}</td>
+                        <td style={{ display: 'none' }}>{patient.patientId}</td>
+                        <td>{patient.name}</td>
+                        <td>{patient.lastName}</td>
+                        <td>{patient.gender}</td>
+                        <td>{patient.department}</td>
+                        <td>{patient.city}</td>
                         <td>
-                            <a className="action" onClick={(id) => this.handleEdit(emp.patientId)}>Edit</a>  |
-                            <a className="action" onClick={(id) => this.handleDelete(emp.patientId)}>Delete</a>
+                            <a className="action" onClick={(id) => this.handleEdit(patient.patientId)}>Edit</a>  |
+                            <a className="action" onClick={(id) => this.handleDelete(patient.patientId)}>Delete</a>
                         </td>
                     </tr>
                 )}
-            </tbody>
-        </table>;
+                   </tbody>
+               </table>;
     }
 }
 export class PatientData {
     patientId: number = 0;
     name: string = "";
+    lastName: string = "";
     gender: string = "";
     city: string = "";
     department: string = "";

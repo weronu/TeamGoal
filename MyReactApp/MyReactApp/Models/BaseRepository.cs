@@ -24,10 +24,18 @@ namespace MyReactApp.Models
             
         }
 
-        public void Add(T entity)
+        public int Add(T entity)
         {
-            myContext.Set<T>().Add(entity);
-            myContext.SaveChanges();
+            try
+            {
+                myContext.Set<T>().Add(entity);
+                myContext.SaveChanges();
+                return 1;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public void Delete(T entity)
@@ -36,11 +44,20 @@ namespace MyReactApp.Models
             myContext.SaveChanges();
         }
 
-        public void Update(T entity)
+        public int Update(T entity)
         {
-            myContext.Set<T>().Update(entity);
-            myContext.Entry<T>(entity).State = EntityState.Modified;
-            myContext.SaveChanges();
+            try
+            {
+                myContext.Set<T>().Update(entity);
+                myContext.Entry<T>(entity).State = EntityState.Modified;
+                myContext.SaveChanges();
+                return 1;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+           
         }
     }
 }
