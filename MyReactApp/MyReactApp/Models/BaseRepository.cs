@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+
+using Microsoft.EntityFrameworkCore;
 
 
 namespace MyReactApp.Models
@@ -8,10 +11,36 @@ namespace MyReactApp.Models
     {
         internal readonly LocalDatabaseContext myContext = new LocalDatabaseContext();
 
-        public IEnumerable<T> GetAll()
+        public List<T> GetAll()
         {
-            return myContext.Set<T>();
+            try
+            {
+                return myContext.Set<T>().ToList();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            
         }
 
+        public void Add(T entity)
+        {
+            myContext.Set<T>().Add(entity);
+            myContext.SaveChanges();
+        }
+
+        public void Delete(T entity)
+        {
+            myContext.Set<T>().Remove(entity);
+            myContext.SaveChanges();
+        }
+
+        public void Update(T entity)
+        {
+            myContext.Set<T>().Update(entity);
+            myContext.Entry<T>(entity).State = EntityState.Modified;
+            myContext.SaveChanges();
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
 namespace MyReactApp.Models
@@ -16,7 +15,7 @@ namespace MyReactApp.Models
             {
                 IConfigurationRoot configuration = new ConfigurationBuilder()
                     .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                    .AddJsonFile("appsettings.json")
+                    .AddJsonFile(@"C:\GitRepos\TeamGoal\MyReactApp\MyReactApp\appsettings.json")
                     .Build();
                 optionsBuilder.UseSqlServer(configuration.GetConnectionString("LocalDatabase"));
             }
